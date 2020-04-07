@@ -37,41 +37,50 @@ $bem-modifier-separator: '--';
   @return str-slice($selector, 0, $modifier-start);
 }
 
+/* BEM
+ -------------------------- */
 @mixin b($block) {
-  .#{$block} {
+  $B: $namespace+'-'+$block !global;
+
+  .#{$B} {
     @content;
   }
 }
 
-@mixin e($elements) {
+@mixin e($element) {
+  $E: $element !global;
   $selector: &;
+  $currentSelector: "";
+  @each $unit in $element {
+    $currentSelector: #{$currentSelector + "." + $B + $element-separator + $unit + ","};
+  }
 
-  @if _bem-selector-has-modifier($selector) {
-    $block: _bem-get-block-name($selector);
-
-    @v-root {
+  @if hitAllSpecialNestRule($selector) {
+    @at-root {
       #{$selector} {
-        @each $element in $elements {
-          .#{$block + $bem-element-separator + $element} {
-            @content;
-          }
+        #{$currentSelector} {
+          @content;
         }
       }
     }
   } @else {
-    @v-root {
-      @each $element in $elements {
-        #{$selector + $bem-element-separator + $element} {
-          @content;
-        }
+    @at-root {
+      #{$currentSelector} {
+        @content;
       }
     }
   }
 }
 
 @mixin m($modifier) {
-  @v-root {
-    #{&}#{$bem-modifier-separator + $modifier} {
+  $selector: &;
+  $currentSelector: "";
+  @each $unit in $modifier {
+    $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ","};
+  }
+
+  @at-root {
+    #{$currentSelector} {
       @content;
     }
   }

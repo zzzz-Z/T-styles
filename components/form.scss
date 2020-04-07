@@ -4,35 +4,31 @@
 @import '../variables/index.scss';
 @import '../mixins/index.scss';
 
-.v-form {
-  /* modifier */
-  &--label-left {
-    .v-form-item__label {
+@include b(form) {
+  @include m(label-left) {
+    & .v-form-item__label {
       text-align: left;
     }
   }
-  &--label-right {
-    .v-form-item__label {
-      text-align: right;
-    }
-  }
-  &--label-top {
-    .v-form-item__label {
+  @include m(label-top) {
+    & .v-form-item__label {
+      float: none;
       display: inline-block;
       text-align: left;
       padding: 0 0 10px 0;
     }
   }
-  &--inline {
-    .v-form-item {
+  @include m(inline) {
+    & .v-form-item {
       display: inline-block;
-      margin-right: 8px;
+      margin-right: 10px;
       vertical-align: top;
     }
-    .v-form-item__label {
+    & .v-form-item__label {
+      float: none;
       display: inline-block;
     }
-    .v-form-item__content {
+    & .v-form-item__content {
       display: inline-block;
       vertical-align: top;
     }
@@ -41,40 +37,134 @@
     }
   }
 }
+@include b(form-item) {
+  margin-bottom: 22px;
+  @include utils-clearfix;
 
-.v-form-item {
-  margin-bottom: 24px;
-  @include clearfix;
-
-  .v-form-item {
+  & .v-form-item {
     margin-bottom: 0;
+  }
 
+  & .v-input__validateIcon {
+    display: none;
+  }
+
+  @include m(medium) {
+    .v-form-item__label {
+      line-height: 36px;
+    }
     .v-form-item__content {
-      margin-left: 0;
+      line-height: 36px;
     }
   }
-  &__label {
+  @include m(small) {
+    .v-form-item__label {
+      line-height: 32px;
+    }
+    .v-form-item__content {
+      line-height: 32px;
+    }
+    &.v-form-item {
+      margin-bottom: 18px;
+    }
+    .v-form-item__error {
+      padding-top: 2px;
+    }
+  }
+  @include m(mini) {
+    .v-form-item__label {
+      line-height: 28px;
+    }
+    .v-form-item__content {
+      line-height: 28px;
+    }
+    &.v-form-item {
+      margin-bottom: 18px;
+    }
+    .v-form-item__error {
+      padding-top: 1px;
+    }
+  }
+
+  @include e(label-wrap) {
+    float: left;
+    .v-form-item__label {
+      display: inline-block;
+      float: none;
+    }
+  }
+
+  @include e(label) {
     text-align: right;
     vertical-align: middle;
     float: left;
     font-size: $font-size-base;
-    color: $color-normal;
-    line-height: 1;
-    padding: 10px 12px 10px 0;
+    color: $text-color;
+    line-height: 32px;
+    padding: 0 12px 0 0;
+    box-sizing: border-box;
   }
-  &__content {
+  @include e(content) {
+    line-height: 32px;
     position: relative;
-    font-size: $font-size-base;
-    line-height: 36px;
-    @include clearfix;
+    font-size: 14px;
+    @include utils-clearfix;
+
+    .v-input-group {
+      vertical-align: top;
+    }
   }
-  &__error-tip {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    padding-top: 4px;
+  @include e(error) {
     color: $color-error;
-    font-size: $font-size-smer;
+    font-size: 12px;
     line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    @include m(inline) {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+  @include when(required) {
+    @include pseudo('not(.is-no-asterisk)') {
+      & > .v-form-item__label:before,
+      & .v-form-item__label-wrap > .v-form-item__label:before {
+        content: '*';
+        color: $color-error;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  @include when(error) {
+    & .v-input__inner,
+    & .v-textarea__inner {
+      &,
+      &:focus {
+        border-color: $color-error;
+      }
+    }
+    & .v-input-group__append,
+    & .v-input-group__prepend {
+      & .v-input__inner {
+        border-color: transparent;
+      }
+    }
+    .v-input__validateIcon {
+      color: $color-error;
+    }
+  }
+
+  @include m(feedback) {
+    .v-input__validateIcon {
+      display: inline-block;
+    }
   }
 }
