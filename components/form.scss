@@ -1,0 +1,80 @@
+/**
+ * Form Style
+ */
+@import '../variables/index.scss';
+@import '../mixins/index.scss';
+
+.v-form {
+  /* modifier */
+  &--label-left {
+    .v-form-item__label {
+      text-align: left;
+    }
+  }
+  &--label-right {
+    .v-form-item__label {
+      text-align: right;
+    }
+  }
+  &--label-top {
+    .v-form-item__label {
+      display: inline-block;
+      text-align: left;
+      padding: 0 0 10px 0;
+    }
+  }
+  &--inline {
+    .v-form-item {
+      display: inline-block;
+      margin-right: 8px;
+      vertical-align: top;
+    }
+    .v-form-item__label {
+      display: inline-block;
+    }
+    .v-form-item__content {
+      display: inline-block;
+      vertical-align: top;
+    }
+    &.v-form--label-top .v-form-item__content {
+      display: block;
+    }
+  }
+}
+
+.v-form-item {
+  margin-bottom: 24px;
+  @include clearfix;
+
+  .v-form-item {
+    margin-bottom: 0;
+
+    .v-form-item__content {
+      margin-left: 0;
+    }
+  }
+  &__label {
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+    font-size: $font-size-base;
+    color: $color-normal;
+    line-height: 1;
+    padding: 10px 12px 10px 0;
+  }
+  &__content {
+    position: relative;
+    font-size: $font-size-base;
+    line-height: 36px;
+    @include clearfix;
+  }
+  &__error-tip {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    padding-top: 4px;
+    color: $color-error;
+    font-size: $font-size-smer;
+    line-height: 1;
+  }
+}
